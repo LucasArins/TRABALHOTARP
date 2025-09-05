@@ -1,0 +1,12 @@
+{
+    "name": "Auth Service",
+    "image": "mcr.microsoft.com/devcontainers/java:17",
+    "forwardPorts": [8080],
+    "postCreateCommand": "cd authservice && ./mvnw clean install",
+    "extensions": [
+        "vscjava.vscode-java-pack",
+        "pivotal.vscode-spring-boot",
+        "vscjava.vscode-maven",
+        "VisualStudioExptTeam.vscodeintellicode"
+    ]
+}
