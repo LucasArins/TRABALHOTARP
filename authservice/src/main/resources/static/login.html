@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>RV Pneus - Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<header class="header">
+  <div class="container nav">
+    <div class="logo">RV Pneus</div>
+    <nav>
+      <a class="link" href="/index.html">Home</a>&nbsp;&nbsp;
+      <a class="link" href="/products.html">Produtos</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="form">
+    <h2>Entrar</h2>
+    <input id="email" class="input" placeholder="Email" value="user@example.com">
+    <input id="password" class="input" type="password" placeholder="Senha" value="admin">
+    <button class="btn" onclick="login()">Entrar</button>
+    <p class="note" id="status"></p>
+    <div style="display:flex; gap:8px; margin-top:12px;">
+      <button class="btn" onclick="callProtected()">Chamar API protegida</button>
+      <button class="btn" onclick="logout()" style="background:#ef4444">Logout</button>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">© RV Pneus</footer>
+<script>
+  async function login() {
+    const res = await fetch('/auth/login/password', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+      document.getElementById('status').innerText = 'Login ok. Token salvo.';
+    } else {
+      document.getElementById('status').innerText = 'Erro no login.';
+    }
+  }
+
+  async function apiGet(url) {
+    let token = localStorage.getItem('accessToken');
+    let resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + token }});
+    if (resp.status === 401) {
+      const r = await fetch('/auth/refresh', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ refreshToken: localStorage.getItem('refreshToken') })
+      });
+      if (r.ok) {
+        const t = await r.json();
+        localStorage.setItem('accessToken', t.accessToken);
+        localStorage.setItem('refreshToken', t.refreshToken);
+        token = t.accessToken;
+        resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + token }});
+      }
+    }
+    return resp;
+  }
+
+  async function callProtected() {
+    const resp = await apiGet('/hello');
+    const text = await resp.text();
+    document.getElementById('status').innerText = 'Resposta: ' + text;
+  }
+
+  async function logout() {
+    await fetch('/auth/logout', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ refreshToken: localStorage.getItem('refreshToken') })
+    });
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    document.getElementById('status').innerText = 'Logout efetuado.';
+  }
+</script>
+</body>
+</html>
