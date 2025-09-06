@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface RefreshTokenJpaRepository extends JpaRepository<RefreshToken, UUID> {
 
-    @Query("select t from RefreshToken t where t.tokenHash.value = :hash and t.revoked = false and t.expiresAt > :now")
+    @Query("select t from RefreshToken t where t.tokenHash.value = :hash and t.revoked = false and t.expiresAt.value > :now")
     Optional<RefreshToken> findActiveByHash(String hash, Instant now);
 
     @Modifying

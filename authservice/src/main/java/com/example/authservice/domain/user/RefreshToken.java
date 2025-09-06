@@ -1,6 +1,7 @@
 package com.example.authservice.domain.user;
 
 import com.example.authservice.domain.user.vo.TokenHash;
+import com.example.authservice.domain.user.vo.ExpiresAt;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,8 +31,8 @@ public class RefreshToken {
     @Embedded
     private TokenHash tokenHash;
 
-    @Column(name = "expires_at", nullable = false)
-    private Instant expiresAt;
+    @Embedded
+    private ExpiresAt expiresAt;
 
     @Column(nullable = false)
     private boolean revoked = false;

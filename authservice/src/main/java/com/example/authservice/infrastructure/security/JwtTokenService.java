@@ -7,6 +7,7 @@ import com.example.authservice.domain.user.User;
 import com.example.authservice.domain.user.RefreshToken;
 import com.example.authservice.domain.user.RefreshTokenRepository;
 import com.example.authservice.domain.user.vo.TokenHash;
+import com.example.authservice.domain.user.vo.ExpiresAt;
 import com.example.authservice.infrastructure.config.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -73,7 +74,7 @@ public class JwtTokenService implements TokenService {
         RefreshToken rt = new RefreshToken();
         rt.setUser(user);
         rt.setTokenHash(TokenHash.of(hash));
-        rt.setExpiresAt(now.plusSeconds(props.getRefreshTtlSeconds()));
+        rt.setExpiresAt(ExpiresAt.of(now.plusSeconds(props.getRefreshTtlSeconds())));
         refreshRepo.save(rt);
 
         return new TokenPair(accessToken, rawRefresh, (int) props.getAccessTtlSeconds());
