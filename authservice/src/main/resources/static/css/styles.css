@@ -1,0 +1,92 @@
+:root {
+  --primary: #0f6a9d;
+  --accent: #f39c12;
+  --bg: #f7f9fb;
+  --text: #263238;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: var(--bg);
+}
+
+.header {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+}
+.logo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.btn {
+  background: var(--primary);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform .05s ease, box-shadow .15s ease;
+  display: inline-block;
+  border: 0;
+  cursor: pointer;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(15,106,157,.2); }
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  padding: 32px 0 16px;
+  align-items: center;
+}
+.hero h1 { margin: 0 0 12px; font-size: 2rem; }
+.hero p { margin: 0 0 16px; color: #4b5563; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+}
+.card h3 { margin: 8px 0; }
+.footer {
+  margin-top: 40px;
+  padding: 24px 0;
+  text-align: center;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+}
+.form {
+  max-width: 420px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+.input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #d1d5db; margin: 8px 0 16px; }
+.link { color: var(--primary); text-decoration: none; }
+.note { color: #6b7280; font-size: .92rem; }
